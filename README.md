@@ -26,27 +26,9 @@ This context menu is only available if you have previously copied a mark to be a
 
 You can paste a mark at a position from some other source, such as a cruising guide.
 
-Copy the position to your clipbaord and then click on the PointUtility's console Close button.  A mark will be dropped at the location, the canvas centred there and the chart zoomed in if required so that the mark is displayed.
+Copy a position such as  _56° 48.190'N 010° 26.637'E_ to your clipbaord and then click on the PointUtility's console Close button.  A mark will be dropped at the location, the canvas centred there and the chart zoomed in if required so that the mark is displayed.
 
-The recording interval can be set and recording started, paused or ended.
-
-The recording mode can be
-
-#### Overwrite
-
-When recording starts, it overwrites the log file.
-
-#### Append
-
-Data is appended to any existing data in the log file
-
-#### Append (auto start)
-
-In this mode, if recording was in progress when the script stopped (or the plugin was disabled) then recording will automatically recommence when the script runs again.  If you combine this with the console _Auto run_ option, recording will automatically recommence when the plugin is loaded.  Thus recording can be auomatically started when OpenCPN is launched.  An alert is displayed for a short while to advise that recording has recommenced.
-
-#### Calling up the control panel
-
-When a control panel choice has been made, the panel is no longer displayed. All that is visible is the parked console.  To summon up the control panel - perhaps to start, stop of paise recording, you ca click on the console's close button.
+If there is text no longer than 15 characters before the position (e.g. _Sandy Bay 56° 48.190'N 010° 26.637'E_) this will be used as the mark name.
 
 ## Installing the script
 
@@ -54,12 +36,10 @@ When a control panel choice has been made, the panel is no longer displayed. All
 2. In a JavaScript console choose `Load` and then `URL on clipboard`.  The script should be loaded into the script pane.
 3. Choose `Run` to start the script.
 
-NB If you want to run the script when not online, you will need to save it to a local file.
+If you want to run the script when not online, you will need to save it to a local file.
+
+Alternatively, you can fork the repository if you want to evolve the script.
 
 ## Discussions
 
-To discuss this script's functionality, us ethe Discussions tab aboove.
-
-## Technical note
-
-The script options are stored in the console's `_remember` variable.  They thus endure between script runs and across OpenCPN restarts (proviided OpenCPN quits gracefully).  The `_remember` variable is unique to the console.  Should you run the script in a different console, it will have fresh option settings.
+To discuss this script's functionality, use the Discussions button above.
