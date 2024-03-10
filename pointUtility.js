@@ -42,6 +42,7 @@ function pasteMark(pos){
 	}
 
 function dropMark(name, pos){
+	if (trace) print("dropMark(", name, ",", pos.formatted, "\n");
 	mark = _remember.mark; // to shorten code
 	mark.position = pos;
 	mark.markName = name;
@@ -67,7 +68,7 @@ function fromClipBoard(){
 		report("Need to copy a waypoint as pattern\nbefore you can paste");
 		return;
 		}
-	// clean up what was on clipboard removong word Lat and Long if present
+	// clean up what was on clipboard removing word Lat and Long if present
 	text = fromClipboard();
 	cleanText = cleanString(text);
 	partPat = /(.*)\xB0.*(N|S)(.*)\xB0.*(E|W)/i;
@@ -88,11 +89,12 @@ function fromClipBoard(){
 	namePart = text.slice(0, pos);
 	positionPart = cleanText.slice(pos+1);
 	pos = namePart.lastIndexOf(" ");
-	namePart = namePart.slice(0, pos).trim();
-	if (trace) print("namePart: '", namePart, "'\npositionPart: '", positionPart, "'\n");
-	if (namePart.length > 15){	// too long - invent one
+	if ((pos < 0) || (namePart.length > 15)){ // no space before position or name too long, so invent name
 		namePart = "Clipboard" + _remember.suffix++;
 		}
+	else namePart = namePart.slice(0, pos).trim();
+	positionPart = text.slice(pos+1);	//NB if no name, pos was left as -1 so this will slice from start of position
+	if (trace) print("namePart: '", namePart, "'\npositionPart: '", positionPart, "'\n");
 	position = new Position(positionPart);
 	dropMark(namePart, position);
 	}
