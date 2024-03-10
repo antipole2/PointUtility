@@ -1,10 +1,10 @@
 # PointUtility
  
-This JavaScript script adds functionality for adding positions
+This script adds functionality for adding marks to OpenCPN
 
 ## _Copy position_ context menu
 
-The _Copy position_ context menu copies a position to your clipboard formatted ready for pasting into rlogs or reports.
+The _Copy position_ context menu copies a position to your clipboard formatted ready for pasting into logs or reports.
 
 ## _Copy mark_ context menu
 
