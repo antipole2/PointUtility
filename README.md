@@ -10,9 +10,9 @@ The _Copy position_ context menu copies a position to your clipboard formatted r
 
 This copies a nearby waypoint to become the template for dropped marks.  You can click on the mark itself - at present this context menu will be in the _Main menu_ subsection.
 
-Choose a mark with the desired icon, _Show at scale_ and other attributes.
+Choose a mark with the desired icon, _Show at scale_  option and other attributes.
 
-The copued mark becomes the pro forma style for dropped marks.
+The copied mark becomes the pro forma style for dropped marks.
 
 ## _Paste mark_ context menu
 
