@@ -22,9 +22,11 @@ An alert shows the name and position of the dropped mark.
 
 This context menu is only available if you have previously copied a mark to be a template.
 
-## Control panel
+## Pasting a position from elsewhere
 
-The script presents one dialogue to select the log file and another to control recording.
+You can paste a mark at a position from some other source, such as a cruising guide.
+
+Copy the position to your clipbaord and then click on the PointUtility's console Close button.  A mark will be dropped at the location, the canvas centred there and the chart zoomed in if required so that the mark is displayed.
 
 The recording interval can be set and recording started, paused or ended.
 
