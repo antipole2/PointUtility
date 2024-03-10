@@ -32,7 +32,7 @@ If there is text no longer than 15 characters before the position (e.g. _Sandy B
 
 ## Installing the script
 
-1. Copy this URL to your clipboard - https://raw.githubusercontent.com/antipole2/VDR2/main/vdr2.js
+1. Copy this URL to your clipboard - https://raw.githubusercontent.com/antipole2/PointUtility/main/pointUtility.js
 2. In a JavaScript console choose `Load` and then `URL on clipboard`.  The script should be loaded into the script pane.
 3. Choose `Run` to start the script.
 
