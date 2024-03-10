@@ -1,6 +1,6 @@
 # PointUtility
  
-This script adds functionality for adding marks to OpenCPN
+This script adds functionality for adding marks to OpenCPN.  When the script is run, it parks itself out of the way and you have the following functionality.
 
 ## _Copy position_ context menu
 
