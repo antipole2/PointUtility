@@ -1,24 +1,32 @@
-# VDR2
+# PointUtility
  
-This JavaScript provides a Voyage Data Recorder for OpenCPN.  It is inspired by the VDR plugin but enhances functionality in various ways.
+This script adds functionality for adding marks to OpenCPN
 
-## Recording frequency
+## _Copy position_ context menu
 
-You set a recording interval in the options.  The plugin acumulates data for that period, keeping just the latest.  When the time interval is up, it writes the data to file as NMEA0183 records.  The size of the log file is greatly reduced by only recording data at intervals.
+The _Copy position_ context menu copies a position to your clipboard formatted ready for pasting into logs or reports.
 
-## Source of navigation data
+## _Copy mark_ context menu
 
-Rather than logging the basic navigation data (position, CMG, SMG) directly from the received NMEA data, VDR2 generates these NMEA0183 records from OpenCPN navigation data.  Thus it uses whatever navigation OpenCPN is using, whether it be NMEA0183, NMEA2000 or SignalK.
+This copies a nearby waypoint to become the template for dropped marks.  You can click on the mark itself - at present this context menu will be in the _Main menu_ subsection.
 
-## NMEA2000 data
+Choose a mark with the desired icon, _Show at scale_ and other attributes.
 
-If you have an NMEA2000 input, VDR2 can log that data by converting it to NMEA0183 sentences.  It does not rely on OpenCPN to perform the decoding but can handle any PGN for which there is a descriptor in the Canboat library.  The script has a table of PGNs to be listened for and the converter function which generates the NMEA0183 sentence.  These converter functions are quite simple - perhaps 6-7 lines of code.
+The copued mark becomes the pro forma style for dropped marks.
 
-At present, there are converters for PGN 128267 (depth) and PGN 30306 (wind).  Morecan be added as required.
+## _Paste mark_ context menu
 
-## Control panel
+Drops a mark at the location using a previously copied mark as the style template.
 
-The script presents one dialogue to select the log file and another to control recording.
+An alert shows the name and position of the dropped mark.
+
+This context menu is only available if you have previously copied a mark to be a template.
+
+## Pasting a position from elsewhere
+
+You can paste a mark at a position from some other source, such as a cruising guide.
+
+Copy the position to your clipbaord and then click on the PointUtility's console Close button.  A mark will be dropped at the location, the canvas centred there and the chart zoomed in if required so that the mark is displayed.
 
 The recording interval can be set and recording started, paused or ended.
 
