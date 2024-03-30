@@ -2,10 +2,13 @@ scriptName = "PointUtility";
 near = 0.25;	// copied waypoint must be this near nm
 
 trace = false;
+confirmDrops = false;
 dumpOnParseFail = true;
+
 if (!trace) consolePark();
 
 Position = require("Position");
+
 //first time set up _remember if need be
 if ((typeof _remember == "undefined")
 	|| (!_remember.hasOwnProperty("pointUtilitySet"))){
@@ -15,30 +18,60 @@ if ((typeof _remember == "undefined")
 	_remember.pointUtilitySet = false;
 	_remember.suffix = 1;
 	}
+if (trace) print(_remember, "\n");
+
 OCPNonContextMenu(copyPos,"Copy position");
 OCPNonContextMenu(markCopy, "Copy mark");
 if (_remember.pointUtilitySet) OCPNonContextMenu(pasteMark, "Paste mark");
 onCloseButton(fromClipBoard);
 
-function copyPos(pos){
+function copyPos(pos){	// copy formatted position to clipboard
 	toClipboard(new Position(pos).formatted);
 	OCPNonContextMenu(copyPos,"Copy position");
 	}
 
-function markCopy(location){
+function markCopy(location){	// copy nearest mark as pro forma
 	nearby = findNearby(location);
 	if (nearby == "") report(" No waypoint within " + near + "nm");
 	else {
 		_remember.mark = nearby;
 		_remember.pointUtilitySet = true;
 		}
+	if (trace) print("Pro forma mark copied\n_remember now: ", _remember, "\n");
+	OCPNonContextMenu();	// not sure if we had one, so start again
 	OCPNonContextMenu(markCopy, "Copy mark");
+	OCPNonContextMenu(pasteMark, "Paste mark");
 	}
 	
-function pasteMark(pos){
+function pasteMark(pos){	// paste pro forma mark at pos after confirming
 	name = "pasted"+_remember.suffix++;
-	dropMark(name, pos);
+	confirm(name, pos);
 	OCPNonContextMenu(pasteMark, "Paste mark");
+	}
+
+function confirm(name, position){	// give user chnace to confirm mark
+	dialog = [
+		{"type":"caption", "value":scriptName},
+		{"type":"field", "label":"Mark name", "value":name, "width":155},
+		{"type":"field", "label":"Position", "value":new Position(position).formatted,"width":160	},
+		{"type":"button", "label":["Cancel", "*Drop mark"]}
+		];
+	onDialogue(handleConfirm, dialog);
+	}
+
+function handleConfirm(response){
+	if (trace) print(response, "\n");
+	button = response[response.length - 1].label;
+	if (button  == "Drop mark"){
+		markName = response[1].value;
+		try {	// position could be invalid
+			position = new Position(response[2].value);
+			dropMark(markName, position);
+			}
+		catch (err){
+			report("Invalid position pair");
+			}
+		}
 	}
 
 function dropMark(name, pos){
@@ -47,17 +80,17 @@ function dropMark(name, pos){
 	mark.position = pos;
 	mark.markName = name;
 	mark.GUID = undefined;
-	if (mark.useMinScale){ 	// check if we need to zoom in so mark visible
+	if (mark.useMinScale){ 	// check if we need to zoom in to mark visible
 		view = OCPNgetCanvasView();
-		// print("Before:", view.ppm, "\t", view.chartScale,"\t", mark.minScale, "\n");
+		if (trace) print("Before:", view.ppm, "\t", view.chartScale,"\t", mark.minScale, "\n");
 		if (view.chartScale > mark.minScale){
 			view.ppm *= view.chartScale/mark.minScale*1.05;	// Err on safe side
 			}
-		// print("After:", view.ppm, "\t", view.chartScale,"\t", mark.minScale, "\n");
+		if (trace) print("After:", view.ppm, "\t", view.chartScale,"\t", mark.minScale, "\n");
 		OCPNcentreCanvas(pos, view.ppm);
 		}
 	OCPNaddSingleWaypoint(mark);
-	report("Dropped waypoint '" + mark.markName + "' at " + 
+	if (confirmDrops) report("Dropped waypoint '" + mark.markName + "' at " + 
 		new Position(mark.position).formatted + "\n");
 	}
 
@@ -74,7 +107,7 @@ function fromClipBoard(){
 	partPat = /(.*)\xB0.*(N|S)(.*)\xB0.*(E|W)/i;
 	parts = cleanText.match(partPat);	// into parts
 	if (parts == null){
-		report("No position pair on clipboard");
+		report("No valid position pair on clipboard");
 		return;
 		}
 	if (trace)print("Parts: ", parts, "\n");
@@ -85,18 +118,18 @@ function fromClipBoard(){
 	if (matches != null) text = text.replace("Long", "");
 
 	// split string into label and position
-	pos = text.search("\xB0");	// where first º 
+	pos = text.search("\xB0");	// where first ° 
 	namePart = text.slice(0, pos);
 	positionPart = cleanText.slice(pos+1);
 	pos = namePart.lastIndexOf(" ");
-	if ((pos < 0) || (namePart.length > 15)){ // no space before position or name too long, so invent name
+	if ((pos < 0) || (namePart.length > 25)){ // no space before position or name too long, so invent name
 		namePart = "Clipboard" + _remember.suffix++;
 		}
 	else namePart = namePart.slice(0, pos).trim();
 	positionPart = text.slice(pos+1);	//NB if no name, pos was left as -1 so this will slice from start of position
 	if (trace) print("namePart: '", namePart, "'\npositionPart: '", positionPart, "'\n");
 	position = new Position(positionPart);
-	dropMark(namePart, position);
+	confirm(namePart, position);
 	}
 	
 function findNearby(pos){
