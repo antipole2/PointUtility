@@ -18,7 +18,7 @@ The copied mark becomes the pro forma style for dropped marks.
 
 Proposes to drop at the chosen location using a previously copied mark as the style template.
 
-When a mark is dropped, the chart is centred on it and wll be zoomed in. if necessary, so that the mark is displayed.
+When a mark is dropped, the chart is centred on it and will be zoomed in. if necessary, so that the mark is displayed.
 
 This context menu is only available if you have previously copied a mark to be a template.
 
@@ -28,7 +28,7 @@ You can paste a mark at a position from some other source, such as a cruising gu
 
 Copy a position such as  _56° 48.190'N 010° 26.637'E_ to your clipboard and then click on the PointUtility's console Close button.  The script will propose to drop a mark at the location, the canvas centred there and the chart zoomed in if required so that the mark is displayed.
 
-If there is text no longer than 15 characters before the position (e.g. _Sandy Bay 56° 48.190'N 010° 26.637'E_) this will be proposed as the mark name.
+If there is a text no longer than 15 characters before the position (e.g. _Sandy Bay 56° 48.190'N 010° 26.637'E_) this will be proposed as the mark name.
 
 ## Installing the script
 
@@ -36,7 +36,7 @@ If there is text no longer than 15 characters before the position (e.g. _Sandy B
 2. In a JavaScript console choose `Load` and then `URL on clipboard`.  The script should be loaded into the script pane.
 3. Choose `Run` to start the script.
 
-If you want to run the script when not online, you will need to save it to a local file.
+If you want to run the script when not online, you will need to save it to a local file.  You can tick the _Auto run_ box to have the script start automatically.
 
 Alternatively, you can fork the repository if you want to evolve the script.
 
