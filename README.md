@@ -4,7 +4,7 @@ This script adds functionality for adding marks to OpenCPN.  When the script is 
 
 ## _Copy position_ context menu
 
-The _Copy position_ context menu copies a position to your clipboard formatted ready for pasting into logs or reports.
+The _Copy position_ context menu copies the cursor position to your clipboard formatted ready for pasting into logs or reports.
 
 ## _Copy mark_ context menu
 
