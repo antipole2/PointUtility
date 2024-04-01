@@ -30,6 +30,8 @@ Copy a position such as  _56° 48.190'N 010° 26.637'E_ to your clipboard and th
 
 If there is a text no longer than 15 characters before the position (e.g. _Sandy Bay 56° 48.190'N 010° 26.637'E_) this will be proposed as the mark name.
 
+This context menu is only available if you have previously copied a mark to be a template.
+
 ## Installing the script
 
 1. Copy this URL to your clipboard (copy link - do not follow it) `https://raw.githubusercontent.com/antipole2/PointUtility/main/pointUtility.js`
