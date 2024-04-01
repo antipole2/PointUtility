@@ -12,21 +12,21 @@ This copies a nearby waypoint to become the template for dropped marks.  You can
 
 Choose a mark with the desired icon, _Show at scale_  option and other attributes.
 
-The copied mark becomes the pro forma style for dropped marks.
+The copied mark becomes the pro forma style for pasted marks.
 
 ## _Paste mark_ context menu
 
-Proposes to drop at the chosen location using a previously copied mark as the style template.
+Proposes to paste a mark at the chosen location using a previously copied mark as the style template.
 
-When a mark is dropped, the chart is centred on it and will be zoomed in. if necessary, so that the mark is displayed.
+When a mark is pasted, the chart is centred on it and will be zoomed in. if necessary, so that the mark is displayed.
 
 This context menu is only available if you have previously copied a mark to be a template.
 
-## Pasting a position from elsewhere
+## _Paste mark from clipboard_ context menu
 
 You can paste a mark at a position from some other source, such as a cruising guide.
 
-Copy a position such as  _56° 48.190'N 010° 26.637'E_ to your clipboard and then click on the PointUtility's console Close button.  The script will propose to drop a mark at the location, the canvas centred there and the chart zoomed in if required so that the mark is displayed.
+Copy a position such as  _56° 48.190'N 010° 26.637'E_ to your clipboard and then select _Paste mark from clipboard_ in the context menu.  The script will propose to drop a mark at the location, the canvas centred there and the chart zoomed in if required so that the mark is displayed.
 
 If there is a text no longer than 15 characters before the position (e.g. _Sandy Bay 56° 48.190'N 010° 26.637'E_) this will be proposed as the mark name.
 
