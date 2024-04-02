@@ -34,6 +34,8 @@ This context menu is only available if you have previously copied a mark to be a
 
 ## Installing the script
 
+This script needs JavaScript plugin v3 or later.
+
 1. Copy this URL to your clipboard (copy link - do not follow it) `https://raw.githubusercontent.com/antipole2/PointUtility/main/pointUtility.js`
 2. In a JavaScript console choose `Load` and then `URL on clipboard`.  The script should be loaded into the script pane.
 3. Choose `Run` to start the script.
