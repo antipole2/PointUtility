@@ -26,9 +26,9 @@ This context menu is only available if you have previously copied a mark to be a
 
 You can paste a mark at a position from some other source, such as a cruising guide.
 
-Copy a position such as  _56° 48.190'N 010° 26.637'E_ to your clipboard and then select _Paste mark from clipboard_ in the context menu.  The script will propose to drop a mark at the location, the canvas centred there and the chart zoomed in if required so that the mark is displayed.
+Copy a position such as  _56° 48.190'N 010° 26.637'E_ to your clipboard and then select _Paste mark from clipboard_ in the context menu.  The script will propose to paste a mark at the location, the canvas centred there and the chart zoomed in if required so that the mark is displayed.
 
-If there is a text no longer than 15 characters before the position (e.g. _Sandy Bay 56° 48.190'N 010° 26.637'E_) this will be proposed as the mark name.
+If there is text no longer than 15 characters before the position (e.g. _Sandy Bay 56° 48.190'N 010° 26.637'E_) this will be proposed as the mark name.
 
 This context menu is only available if you have previously copied a mark to be a template.
 
