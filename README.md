@@ -8,7 +8,7 @@ The _Copy position_ context menu copies the cursor position to your clipboard fo
 
 ## _Copy mark_ context menu
 
-This copies a nearby waypoint to become the template for dropped marks.  You can click on the mark itself - at present this context menu will be in the _Main menu_ subsection.
+This copies a nearby waypoint to become the template for pasted marks.  You can click on the mark itself - at present this context menu will be in the _Main menu_ subsection.
 
 Choose a mark with the desired icon, _Show at scale_  option and other attributes.
 
