@@ -105,45 +105,40 @@ function dropMark(name, pos){
 	}
 
 function handleClipboard(){
-	trace = false;
 	if (!_remember.pointUtilitySet){
 		report("Need to copy a waypoint as pattern\nbefore you can paste");
 		return;
 		}
 	// clean up what was on clipboard removing word Lat and Long if present
-	text = fromClipboard();
-	cleanText = cleanString(text);
-	partPat = /(.*)\xB0.*(N|S)(.*)\xB0.*(E|W)/i;
-	parts = cleanText.match(partPat);	// into parts
+	text = cleanString(fromClipboard());
+	if (trace) print("Clipboard: ", text, "\n");
+	// split into name (if any) and position
+	partPat = /^(.*)\s?(\d\d{1,2}º.*\d?º.*)/i;
+	parts = text.match(partPat);	// into parts
+	if (trace) print("Parts: ", parts, "\n");
 	if (parts == null){
 		report("No valid position pair on clipboard");
-		OCPNonContextMenu(handlClipboard, "Paste mark from clipboard");
+		OCPNonContextMenu(handleClipboard, "Paste mark from clipboard");
 		return;
 		}
 	else {
-		if (trace)print("Parts: ", parts, "\n");
+		namePart = parts[1];
+		// Position might have "Lat xxx  Long yyy".  Name part will have the Lat.  Deal with it.
+		namePart = namePart.replace(/Lat/i, "").trim();
+		positionPart = parts[2];
+		if (trace) print("Name: ", namePart, "\tPosition: ", positionPart, "\n");
 		// remove words Lat & Long if present
-		matches = text.match(/.*(\bLat\b)|(^Lat\b).*/);
-		if (matches != null) text = text.replace("Lat", "");
-		matches = text.match(/.*(\bLong\b)|(^Long\b).*/);
-		if (matches != null) text = text.replace("Long", "");
-
-		// split string into label and position
-		pos = text.search("\xB0");	// where first ° 
-		namePart = text.slice(0, pos);
-		positionPart = cleanText.slice(pos+1);
-		pos = namePart.lastIndexOf(" ");
-		if ((pos < 0) || (namePart.length > 25)){ // no space before position or name too long, so invent name
-			namePart = "Clipboard" + _remember.suffix++;
-			}
-		else namePart = namePart.slice(0, pos).trim();
-		positionPart = text.slice(pos+1);	//NB if no name, pos was left as -1 so this will slice from start of position
+		matches = positionPart.match(/.*(\bLat\b)|(^Lat\b).*/);
+		if (matches != null) positionPart = positionPart.replace("Lat", "");
+		matches = text.match(/.*(\bLong?\b)|(^Long?\b).*/);
+		if (matches != null) positionPart = positionPart.replace("Long", "");
+		if (trace) print("cleaned position: ", positionPart, "\n");
+		if (namePart.length < 1) namePart = "Clipboard" + _remember.suffix++;
 		if (trace) print("namePart: '", namePart, "'\npositionPart: '", positionPart, "'\n");
 		position = new Position(positionPart);
 		if (trace) print("From clipboard name '", namePart, "'\tPosition: ", position, "\n");
 		confirm(namePart, position);
 		}
-//	onCloseButton(handlClipboard)
 	OCPNonContextMenu(handleClipboard, "Paste mark from clipboard");
 	}
 	
