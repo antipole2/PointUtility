@@ -6,7 +6,7 @@ trace = false;
 confirmDrops = false;
 dumpOnParseFail = true;
 
-scriptVersion = 1.0
+scriptVersion = 1.1
 checkVersion(scriptVersion, 2,
 	"https://raw.githubusercontent.com/antipole2/PointUtility/main/pointUtility.js",
 	"https://raw.githubusercontent.com/antipole2/PointUtility/main/version.JSON"
@@ -119,7 +119,7 @@ function handleClipboard(){
 	text = cleanString(fromClipboard());
 	if (trace) print("Clipboard: ", text, "\n");
 	// split into name (if any) and position
-	partPat = /^(.*)\s?(\d\d{1,2}º.*\d?º.*)/i;
+	partPat = /^(.*)\s?(\d\d{1,2}°.*\d?°.*)/i;
 	parts = text.match(partPat);	// into parts
 	if (trace) print("Parts: ", parts, "\n");
 	if (parts == null){
