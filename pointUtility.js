@@ -6,7 +6,7 @@ trace = false;
 confirmDrops = false;
 dumpOnParseFail = true;
 
-scriptVersion = 1.0
+scriptVersion = 1.1
 checkVersion(scriptVersion, 2,
 	"https://raw.githubusercontent.com/antipole2/PointUtility/main/pointUtility.js",
 	"https://raw.githubusercontent.com/antipole2/PointUtility/main/version.JSON"
