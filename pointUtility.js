@@ -6,6 +6,12 @@ trace = false;
 confirmDrops = false;
 dumpOnParseFail = true;
 
+scriptVersion = 1.0
+checkVersion(scriptVersion, 2,
+	"https://raw.githubusercontent.com/antipole2/PointUtility/main/pointUtility.js",
+	"https://raw.githubusercontent.com/antipole2/PointUtility/main/version.JSON"
+	);
+
 if (!trace) consolePark();
 
 Position = require("Position");
@@ -174,3 +180,49 @@ function cancel(){
 	alert(false);
 	}
 
+function checkVersion(version, days, scriptURL, versionCheckURL){
+/*
+	version	present version
+	days		check every tis often if on-line
+	scriptURL	where the script can be found
+	versionCheckURL	 where the version  file can be found
+*/
+//	if (OCPNgetPluginConfig().PluginVersionMajor < 3) throw(scriptName + " requires plugin v3 or later.");
+	if (!OCPNisOnline()) return;
+	if (_remember == undefined) _remember = {};
+	now = Date.now();
+	if (trace) print("Now: ", now, "\n");
+	if (_remember.hasOwnProperty("versionControl")){
+		lastCheck = _remember.versionControl.lastCheck;
+		if (trace) print("versionControl.lastCheck was ", lastCheck, "\n");
+		if (now < (lastCheck + days*24*60*60*1000)){
+			if (trace) print("No version check due\n");
+			return;
+			}
+		_remember.versionControl.lastCheck = now;
+		}
+	else _remember.versionControl = {"lastCheck":0};
+	if (trace) print("versionControl.lastCheck updated to ", now, "\n");
+//	versionCheckURL = "https://raw.githubusercontent.com/antipole2/VDR2/main/version.JSON";
+//	scriptURL = "https://raw.githubusercontent.com/antipole2/VDR2/main/vdr2.js"
+	details = JSON.parse(readTextFile(versionCheckURL));
+	if (version < details.version){
+		message = "\You have script version " + scriptVersion
+			+ "\nUpdate to version " + details.version + " available."
+			+ "\nDate: " + details.date + "\nNew: " + details.new
+			+ "\n \nUpdating will lose any local changes you have made\nYou need to save these first"
+			+ "\nTo supress update prompts, disable the call to checkVersion"
+			+ "\nUpdate now?";
+		response = messageBox(message, "YesNo");
+		if (response == 2){
+			require("Consoles");
+			consoleLoad(consoleName(), scriptURL);
+			message = "Script updated.\nYou need to save it locally if you want to run it off-line"
+				+ "\nYou can now run the updated script.";
+			messageBox(message);
+			stopScript("Script updated");
+			}
+		else _remember.versionControl.lastCheck = now;
+		}
+	else if (trace) print("Version already up to date\n");
+	}
