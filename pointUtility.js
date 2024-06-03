@@ -6,7 +6,7 @@ trace = false;
 confirmDrops = false;
 dumpOnParseFail = true;
 
-scriptVersion = 1.0
+scriptVersion = 1.2	// centres chart even when no waypoint Show At Scale set
 checkForUpdates();
 if (!trace) consolePark();
 
@@ -93,15 +93,15 @@ function dropMark(name, pos){
 	mark.position = pos;
 	mark.markName = name;
 	mark.GUID = undefined;
-	if (mark.useMinScale){ 	// check if we need to zoom in to mark visible
-		view = OCPNgetCanvasView();
+	view = OCPNgetCanvasView();
+	if (mark.useMinScale){ 	// check if we need to zoom in to mark visible		
 		if (trace) print("Before:", view.ppm, "\t", view.chartScale,"\t", mark.minScale, "\n");
 		if (view.chartScale > mark.minScale){
 			view.ppm *= view.chartScale/mark.minScale*1.05;	// Err on safe side
 			}
 		if (trace) print("After:", view.ppm, "\t", view.chartScale,"\t", mark.minScale, "\n");
-		OCPNcentreCanvas(pos, view.ppm);
 		}
+	OCPNcentreCanvas(pos, view.ppm);
 	OCPNaddSingleWaypoint(mark);
 	if (confirmDrops) report("Dropped waypoint '" + mark.markName + "' at " + 
 		new Position(mark.position).formatted + "\n");
