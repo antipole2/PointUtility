@@ -6,7 +6,7 @@ trace = false;
 confirmDrops = false;
 dumpOnParseFail = true;
 
-scriptVersion = 1.2	// centres chart even when no waypoint Show At Scale set
+scriptVersion = 1.3	// reduces excessive on-line checks
 checkForUpdates();
 if (!trace) consolePark();
 
@@ -179,10 +179,25 @@ function cancel(){
 
 function checkForUpdates(){
 	if (!OCPNisOnline()) return;
+	checkDays = 5;	// how often to check
+	if (_remember.hasOwnProperty("versionControl")){
+		if (trace) print("_remember: ", JSON.stringify(_remember), "\n");
+		now = new Date().getTime();
+		lastCheck = _remember.versionControl.lastCheck;
+		nextCheck = lastCheck + checkDays*24*60*60*1000;
+		if (trace) print("now: ", now, "\tversionControl.lastCheck was ", lastCheck, "\tnext due ", nextCheck, "\n");
+		if (now < nextCheck){
+			_remember.versionControl.lastCheck = now;
+			return;
+			}
+		}
 	choice = messageBox("Are you truely on-line to the internet?", "YesNo", "checkVersion");
-	if (choice == 3) return;
+	if (choice == 3){
+		_remember.versionControl.lastCheck = now;
+		return;
+		}
 	check = require("https://raw.githubusercontent.com/antipole2/JavaScript_pi/master/onlineIncludes/checkForUpdates.js");
-	check(scriptVersion, days = 5,
+	check(scriptVersion, checkDays,
 		"https://raw.githubusercontent.com/antipole2/PointUtility/main/pointUtility.js",	// url of script
 		"https://raw.githubusercontent.com/antipole2/PointUtility/main/version.JSON"// url of version JSON
 		);
