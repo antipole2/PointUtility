@@ -6,8 +6,10 @@ trace = false;
 confirmDrops = false;
 dumpOnParseFail = true;
 
-scriptVersion = 1.4	// reduces excessive on-line checks
-checkForUpdates();
+scriptVersion = 1.5	// Uses built-in updating
+
+require("checkForUpdate")("PointUtility", scriptVersion, 5, "https://raw.githubusercontent.com/antipole2/PointUtility/main/version.JSON");
+
 if (!trace) consolePark();
 
 Position = require("Position");
@@ -26,6 +28,7 @@ if (trace) print(_remember, "\n");
 
 OCPNonContextMenu(copyPos,"Copy position");
 OCPNonContextMenu(copyMark, "Copy mark");
+
 if (_remember.pointUtilitySet){
 	OCPNonContextMenu(pasteMark, "Paste mark");
 	OCPNonContextMenu(handleClipboard, "Paste mark from clipboard");
@@ -37,6 +40,7 @@ function copyPos(pos){	// copy formatted position to clipboard
 	}
 
 function copyMark(location){	// copy nearest mark as pro forma
+	if (trace) print("In copyMark\n");
 	nearby = findNearby(location);
 
 	if (nearby == ""){
@@ -175,30 +179,4 @@ function report(message){
 
 function cancel(){
 	alert(false);
-	}
-
-function checkForUpdates(){
-	if (!OCPNisOnline()) return;
-	now = new Date().getTime();
-	checkDays = 5;	// how often to check
-	if (_remember.hasOwnProperty("versionControl")){
-		if (trace) print("_remember: ", JSON.stringify(_remember), "\n");
-		lastCheck = _remember.versionControl.lastCheck;
-		nextCheck = lastCheck + checkDays*24*60*60*1000;
-		if (trace) print("now: ", now, "\tversionControl.lastCheck was ", lastCheck, "\tnext due ", nextCheck, "\n");
-		if (now < nextCheck){
-			_remember.versionControl.lastCheck = now;
-			return;
-			}
-		}
-	choice = messageBox("Are you truely on-line to the internet?", "YesNo", "checkVersion");
-	if (choice == 3){
-		_remember.versionControl.lastCheck = now;
-		return;
-		}
-	check = require("https://raw.githubusercontent.com/antipole2/JavaScript_pi/master/onlineIncludes/checkForUpdates.js");
-	check(scriptVersion, checkDays,
-		"https://raw.githubusercontent.com/antipole2/PointUtility/main/pointUtility.js",	// url of script
-		"https://raw.githubusercontent.com/antipole2/PointUtility/main/version.JSON"// url of version JSON
-		);
 	}
