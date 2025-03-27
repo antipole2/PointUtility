@@ -1,15 +1,15 @@
 scriptName = "PointUtility";
 near = 0.25;	// copied waypoint must be this near nm
 
-if (OCPNgetPluginConfig().PluginVersionMajor < 3) throw(scriptName + " requires plugin v3 or later.");
-trace = false;
 confirmDrops = false;
 dumpOnParseFail = true;
 
-scriptVersion = 1.5	// Uses built-in updating
+require("pluginVersion")("3.1.1");
+scriptName = "PointUtility";
+scriptVersion = "1.5.1" // Uses built-in updating + fix for missing trace declaration
+require("checkForUpdate")(scriptName, scriptVersion, 5, "https://raw.githubusercontent.com/antipole2/PointUtility/main/version.JSON");
 
-require("checkForUpdate")("PointUtility", scriptVersion, 5, "https://raw.githubusercontent.com/antipole2/PointUtility/main/version.JSON");
-
+var trace = false;
 if (!trace) consolePark();
 
 Position = require("Position");
@@ -66,7 +66,7 @@ function pasteMark(pos){	// paste pro forma mark at pos after confirming
 	OCPNonContextMenu(pasteMark, "Paste mark");
 	}
 
-function confirm(name, position){	// give user chnace to confirm mark
+function confirm(name, position){	// give user chance to confirm mark
 	dialog = [
 		{"type":"caption", "value":scriptName},
 		{"type":"field", "label":"Mark name", "value":name, "width":155},
