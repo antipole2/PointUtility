@@ -1,16 +1,15 @@
 scriptName = "PointUtility";
-near = 0.25;	// copied waypoint must be this near nm
+
+var trace = false;
+if (!trace) consolePark();
 
 confirmDrops = false;
 dumpOnParseFail = true;
 
-require("pluginVersion")("3.2");
 scriptName = "PointUtility";
-scriptVersion = "1.6" // Uses OCPN 5.12 + latest JS plugin; copy route added
-require("checkForUpdate")(scriptName, scriptVersion, 5, "https://raw.githubusercontent.com/antipole2/PointUtility/main/version.JSON");
+thisScriptVersion = "1.6";
+require("checkForUpdate")(scriptName, thisScriptVersion, 5, "https://raw.githubusercontent.com/antipole2/PointUtility/v3.2/version.JSON");
 
-var trace = false;
-if (!trace) consolePark();
 
 pasteMarkId = false;		// if we have pasteMark menu,id of its callback
 Position = require("Position");
