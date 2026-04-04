@@ -4,21 +4,20 @@ near = 0.25;	// copied waypoint must be this near nm
 confirmDrops = false;
 dumpOnParseFail = true;
 
-require("pluginVersion")("3.1.1");
+require("pluginVersion")("3.2");
 scriptName = "PointUtility";
-scriptVersion = "1.5.1" // Uses built-in updating + fix for missing trace declaration
+scriptVersion = "1.6" // Uses OCPN 5.12 + latest JS plugin; copy route added
 require("checkForUpdate")(scriptName, scriptVersion, 5, "https://raw.githubusercontent.com/antipole2/PointUtility/main/version.JSON");
 
 var trace = false;
 if (!trace) consolePark();
 
+pasteMarkId = false;		// if we have pasteMark menu,id of its callback
 Position = require("Position");
-
 //first time set up _remember if need be
 if ((typeof _remember == "undefined")
 	|| (_remember == null)
-	|| (!_remember.hasOwnProperty("pointUtilitySet"))){
-	// first time
+	|| (!_remember.hasOwnProperty("pointUtilitySet"))){ // first time
 	consoleName(scriptName);
 	_remember = {};
 	_remember.pointUtilitySet = false;
@@ -26,44 +25,35 @@ if ((typeof _remember == "undefined")
 	}
 if (trace) print(_remember, "\n");
 
-OCPNonContextMenu(copyPos,"Copy position");
-OCPNonContextMenu(copyMark, "Copy mark");
+OCPNonAllContextMenu(copyPos,"Copy position");
+OCPNonAllWaypointContextMenu(copyMark, "Copy mark");
+OCPNonAllRouteContextMenu(dupRoute, "Duplicate route");
 
 if (_remember.pointUtilitySet){
-	OCPNonContextMenu(pasteMark, "Paste mark");
-	OCPNonContextMenu(handleClipboard, "Paste mark from clipboard");
+	pasteMarkId = OCPNonAllContextMenu(pasteMark, "Paste mark");
+	OCPNonAllContextMenu(handleClipboard, "Paste mark from clipboard");
 	}
 
 function copyPos(pos){	// copy formatted position to clipboard
+	if (trace) print("Cppy position: ", pos, "\n");
 	toClipboard(new Position(pos).formatted);
-	OCPNonContextMenu(copyPos,"Copy position");
 	}
 
-function copyMark(location){	// copy nearest mark as pro forma
+function copyMark(info){	// copy mark as pro forma
 	if (trace) print("In copyMark\n");
-	nearby = findNearby(location);
-
-	if (nearby == ""){
-		report(" No single nearest waypoint within " + near + "nm");
-		OCPNonContextMenu(copyMark, "Copy mark");
-		return;
+	theMark = OCPNgetSingleWaypoint(info.GUID);
+	if (trace) print("Copied mark ", theMark.markName, "\n");
+	_remember.mark = theMark;
+	_remember.pointUtilitySet = true;
+	if (!pasteMarkId){	// did not have paste mark available before, so add pasting options
+		pasteMarkId = OCPNonAllContextMenu(pasteMark, "Paste mark");
+		OCPNonAllContextMenu(handleClipboard, "Paste mark from clipboard");
 		}
-	else {
-		_remember.mark = nearby;
-		_remember.pointUtilitySet = true;
-		}
-	if (trace) print("Pro forma mark copied\n_remember now: ", _remember, "\n");
-	OCPNonContextMenu();	// not sure if we had one, so start again
-	OCPNonContextMenu(copyPos,"Copy position");
-	OCPNonContextMenu(copyMark, "Copy mark");
-	OCPNonContextMenu(pasteMark, "Paste mark");
-	OCPNonContextMenu(handleClipboard, "Paste mark from clipboard");
 	}
 	
 function pasteMark(pos){	// paste pro forma mark at pos after confirming
 	name = "pasted"+_remember.suffix++;
 	confirm(name, pos);
-	OCPNonContextMenu(pasteMark, "Paste mark");
 	}
 
 function confirm(name, position){	// give user chance to confirm mark
@@ -124,8 +114,7 @@ function handleClipboard(){
 	parts = text.match(partPat);	// into parts
 	if (trace) print("Parts: ", parts, "\n");
 	if (parts == null){
-		report("No valid position pair on clipboard");
-		OCPNonContextMenu(handleClipboard, "Paste mark from clipboard");
+		report("No recognised position pair on clipboard");
 		return;
 		}
 	else {
@@ -146,37 +135,30 @@ function handleClipboard(){
 		if (trace) print("From clipboard name '", namePart, "'\tPosition: ", position, "\n");
 		confirm(namePart, position);
 		}
-	OCPNonContextMenu(handleClipboard, "Paste mark from clipboard");
 	}
-	
-function findNearby(pos){
-	// find waypoint near pos
-	waypoints = [];	// array of candidates
-	guids = OCPNgetWaypointGUIDs();
-	if (guids.length < 1) return "";
-	for (g = 0; g < guids.length; g++){
-		waypoint = OCPNgetSingleWaypoint(guids[g]);
-		if (!waypoint.isVisible) continue;
-		waypoint.distance = OCPNgetVectorPP(pos, waypoint.position).distance;
-		if (waypoint.distance > near) continue;
-		waypoints.push(waypoint);	// remmember candidate
-		}
-	if (waypoints.length < 1) return "";
-	else if (waypoints.length == 1) return waypoints[0];	// only one
-	waypoints.sort(function(a, b){return a.distance - b.distance});
-	if (!waypoints[1].distance > waypoints[0].distance){
-		report("Mark selection ambiguous - more than one nearest");
-		return "";
-		}
-	return waypoints[0];
+
+function dupRoute(input){ // duplicate selected route
+	if (trace) print("In dupRoute\n");
+	route = OCPNgetRoute(input.GUID);
+	existingName = route.name;
+	if (trace) print("Selected route is ", route.name, "\n");
+	route.isVisible = false;
+	OCPNupdateRoute(route);	// hide original copy
+	route.isVisible = true;
+	route.name += " copy";
+	delete route.GUID;	// get a new route created
+	OCPNaddRoute(route);
+	report("Route '" + existingName + "' has been hidden\nRoute '" + route.name + "' created");
 	}
 
 function report(message){
 	onSeconds();	// cancel any existing timer
 	alert(message);
-	onSeconds(cancel, 7);
+	onSeconds(function(){alert(false);}, 10);	// cancel alert after time
 	}
 
+/*
 function cancel(){
 	alert(false);
 	}
+*/
