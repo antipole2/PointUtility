@@ -6,19 +6,19 @@ This script adds functionality for adding marks to OpenCPN.  When the script is 
 
 The _Copy position_ context menu copies the cursor position to your clipboard formatted ready for pasting into logs or reports.
 
-## _Copy mark_ context menu
+## _Copy mark_ waypoint context menu
 
-This copies a nearby waypoint to become the template for pasted marks.  You can click on the mark itself - at present this context menu will be in the _Main menu_ subsection.
+This copies the waypoint to become the template for pasted marks.
 
 Choose a mark with the desired icon, _Show at scale_  option and other attributes.
 
-The copied mark becomes the pro forma style for pasted marks.
+The copied mark becomes the _pro forma_ style for pasted marks.
 
 ## _Paste mark_ context menu
 
 Proposes to paste a mark at the chosen location using a previously copied mark as the style template.
 
-When a mark is pasted, the chart is centred on it and will be zoomed in. if necessary, so that the mark is displayed.
+When a mark is pasted, the chart is centred on it and will be zoomed in, if necessary, so that the mark is displayed.
 
 This context menu is only available if you have previously copied a mark to be a template.
 
@@ -32,9 +32,15 @@ If there is text no longer than 15 characters before the position (e.g. _Sandy B
 
 This context menu is only available if you have previously copied a mark to be a template.
 
+## _Duplicate route_ route context menu
+
+In OpenCPN, duplicating a route to modify for some purpose is tedious - involving exporting the route, editing out the GUID and then importing it.
+
+Point Utility adds a _Duplicate route_ route context menu that does just that.  The original route is hidden and _copy_ is appened to the duplicate name.
+
 ## Installing the script
 
-This script needs JavaScript plugin v3 or later.
+This script needs JavaScript plugin v4.0.1 or later.
 
 1. Copy this URL to your clipboard (copy link - do not follow it) `https://raw.githubusercontent.com/antipole2/PointUtility/main/pointUtility.js`
 2. In a JavaScript console choose `Load` and then `URL on clipboard`.  The script should be loaded into the script pane.
