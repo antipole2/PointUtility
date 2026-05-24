@@ -1,6 +1,6 @@
 # PointUtility
  
-This script adds functionality for adding marks to OpenCPN.  When the script is run, it parks itself out of the way and you have the following functionality.
+This script adds functionality for positions, marks and routes to OpenCPN.  When the script is run, it parks itself out of the way and you have the following functionality.
 
 ## _Copy position_ context menu
 
@@ -37,10 +37,11 @@ This context menu is only available if you have previously copied a mark to be a
 In OpenCPN, duplicating a route to modify for some purpose is tedious - involving exporting the route, editing out the GUID and then importing it.
 
 Point Utility adds a _Duplicate route_ route context menu that does just that.  The original route is hidden and _copy_ is appened to the duplicate name.
+This is very useful if you have a stock route and you want to start a new route based on your stock route but do not want to modify the stock route.
 
 ## Installing the script
 
-This script needs JavaScript plugin v4.0.1 or later.
+This script needs JavaScript plugin v4.0.0 or later.
 
 1. Copy this URL to your clipboard (copy link - do not follow it) `https://raw.githubusercontent.com/antipole2/PointUtility/main/pointUtility.js`
 2. In a JavaScript console choose `Load` and then `URL on clipboard`.  The script should be loaded into the script pane.
@@ -48,7 +49,7 @@ This script needs JavaScript plugin v4.0.1 or later.
 
 If you want to run the script when not online, you will need to save it to a local file.  You can tick the _Auto run_ box to have the script start automatically.
 
-Alternatively, you can fork the repository if you want to evolve the script.
+Alternatively, you can fork the repository if you want to evolve the script yourslf.
 
 ## Discussions
 
