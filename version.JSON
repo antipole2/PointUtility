@@ -3,6 +3,6 @@
 	"date":"04 Apr 2026",
 	"script": "https://raw.githubusercontent.com/antipole2/PointUtility/main/pointUtility.js",
 	"new":"Use waypoint and route context menus and add route duplication",
-	"pluginVersion": "4.0.1",
+	"pluginVersion": "4.0.0",
 	"comment": "Don't forget to set same version number in the script too!"
 }
