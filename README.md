@@ -36,7 +36,7 @@ This context menu is only available if you have previously copied a mark to be a
 
 In OpenCPN, duplicating a route to modify for some purpose is tedious - involving exporting the route, editing out the GUID and then importing it.
 
-Point Utility adds a _Duplicate route_ route context.  The original route is hidden and _copy_ is appened to the duplicate name.
+Point Utility adds a _Duplicate route_ route context menu item.  The original route is hidden and _copy_ is appened to the duplicate name.
 This is very useful if you have a stock route and you want to start a new route based on your stock route but do not want to modify the stock route.
 
 ## Installing the script
